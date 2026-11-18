@@ -24,7 +24,7 @@ jobs:
     # não reconheceu o Visual Studio 18 do runner. Node 24 é o runtime validado.
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
         uses: actions/setup-node@v4
