@@ -9,7 +9,7 @@
 - **Checkout:** use o diretório local do clone; não fixe caminho de máquina nos documentos públicos.
 - **Fase:** **MVP local cooperativo integrado, autenticado por principal e autorizado por workspace; rodada 2 revisada com auditoria independente e adapters em nível de template.** Fundação, colaboração, workspace, locking e checkpoints estão ligados ao entrypoint real, com 37 ferramentas MCP e migrations até a **v30**.
 - **Não é um MVP remoto pronto.** O binding continua exclusivamente loopback. A autenticação Bearer por principal, o vínculo sessão/principal e a **autorização por workspace via `allowedPrincipals`** estão implementadas, mas **Tailscale/acesso remoto ainda não foram configurados/validados** e exigem revisão de `allowedHosts`/proxy confiável antes do piloto remoto.
-- O diretório NÃO é um repositório Git e nenhuma operação Git foi executada.
+- Repositório Git local inicializado na branch `main`, conectado ao remoto público. O runtime do MCP continua sem tools de Git.
 - Ambiente validado: Windows, Node.js `v24.19.0`, npm `11.17.0`. No PowerShell deste host usar `npm.cmd` (o `npm.ps1` é bloqueado pela ExecutionPolicy).
 - **Runtime suportado: Node.js 24+.** Node 22 foi removido da matriz após falha real no CI: `better-sqlite3@13.2.0` caiu em `node-gyp` e o VS 18 do runner não foi reconhecido. Ver seção 26.
 - Comandos disponíveis: `dev`, `start`, `build`, `typecheck`, `test`, `test:watch`, `smoke` (integrado), `smoke:foundation`, `smoke:integration`, `clean`, `auth:create`, `auth:list`, `auth:revoke`, `check:mcp` (seções 22–25).
@@ -1117,10 +1117,12 @@ O runbook descreve Tailscale Serve privado (sem Funnel), `COLLAB_ALLOWED_HOSTS` 
 - O tom é técnico e honesto: não há screenshots, benchmarks, usuários fictícios ou promessa de cliente remoto/Tailscale validado.
 - O produto continua em modo cooperativo local; a publicação pública não muda o escopo nem a segurança do runtime.
 
-### Estado da árvore antes da publicação
+### Estado da publicação
 
 - 200 testes / 24 arquivos; typecheck, build, smokes e start compilado com fixture/Bearer validados.
 - Migrations v30; 37 tools.
 - `npm audit --omit=dev` = 0 vulnerabilidades.
+- Repositório público com `main`, README, MIT, CI, Dependabot, templates comunitários e relatório privado de vulnerabilidades habilitado.
+- O primeiro CI público expôs uma incompatibilidade real com Node 22; a matriz e a promessa pública foram corrigidas para Node 24+, e o CI passou no workflow `Node 24 on Windows`.
 - Nenhum cliente real/Tailscale validado.
-- A árvore **não** contém `.git`; a inicialização/commit/push é responsabilidade do orquestrador, não deste agente.
+- A árvore é um repositório Git; `.git`, `workspaces.json`, `.env`, dados, builds e temporários não são versionados.
