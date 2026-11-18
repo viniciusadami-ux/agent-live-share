@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/viniciusadami-ux/agent-live-share/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/viniciusadami-ux/agent-live-share/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/github/license/viniciusadami-ux/agent-live-share)](LICENSE)
-[![Node >=22.5](https://img.shields.io/badge/node-%3E%3D22.5-339933?logo=nodedotjs&logoColor=white)](package.json)
+[![Node >=24](https://img.shields.io/badge/node-%3E%3D24-339933?logo=nodedotjs&logoColor=white)](package.json)
 [![MCP](https://img.shields.io/badge/MCP-2025--11--25-5A4FCF)](https://modelcontextprotocol.io/specification/2025-11-25)
 
 **Agent Live Share** é um servidor MCP que permite que vários agentes de programação trabalhem no **mesmo workspace real**, sem clones, worktrees ou cópias paralelas. Em vez de dividir o repositório, os agentes compartilham os arquivos e negociam acesso a cada arquivo antes de editá-lo.
@@ -99,10 +99,12 @@ Antes de tocar o disco, o servidor grava um journal com o conteúdo anterior, o 
 
 ### Requisitos
 
-- Node.js **>= 22.5** (validado com 24.19);
+- Node.js **>= 24** (validado com 24.19);
 - npm;
-- Windows é o ambiente principal validado; CI também cobre Node 22.x/24.x em `windows-latest`;
+- Windows é o ambiente principal validado; CI usa Node 24 em `windows-latest`;
 - um cliente MCP com suporte a Streamable HTTP e header `Authorization`.
+
+> **Node 22 não é suportado nesta versão.** No primeiro CI público, `better-sqlite3@13.2.0` não obteve um prebuild compatível no runner Windows/Node 22 e caiu para `node-gyp`; o `node-gyp` 11.5 não reconheceu o Visual Studio 18 do runner. Exigir Node 24 evita depender de compilação nativa/Visual Studio e corresponde ao runtime realmente validado.
 
 O projeto não é publicado no npm. Rode a partir do checkout.
 
@@ -242,7 +244,7 @@ O inventário completo, campos e respostas está em [adapters/shared/TOOL_REFERE
 | `npm.cmd run smoke:foundation` | Smoke isolado da fundação |
 | `npm.cmd run check:mcp` | Verificação de conexão com Bearer |
 
-A suíte cobre autenticação 401/403/429, vínculo principal↔sessão, revogação, autorização por workspace, descoberta de workspace, isolamento de salas, locks, hash antigo, negociação, handoff, checkpoint, expiração e reinício com o mesmo SQLite. **200 testes passam em Windows/Node 24 localmente; CI executa Node 22.x e 24.x em `windows-latest`.**
+A suíte cobre autenticação 401/403/429, vínculo principal↔sessão, revogação, autorização por workspace, descoberta de workspace, isolamento de salas, locks, hash antigo, negociação, handoff, checkpoint, expiração e reinício com o mesmo SQLite. **200 testes passam em Windows/Node 24 localmente; CI executa Node 24 em `windows-latest`.**
 
 Segurança de dependências: `npm audit --omit=dev` = **0 vulnerabilidades de produção**; no momento da publicação há 3 advisories **dev** na cadeia Vitest/Vite, documentados no [CHANGELOG](CHANGELOG.md).
 

@@ -11,6 +11,7 @@
 - **Não é um MVP remoto pronto.** O binding continua exclusivamente loopback. A autenticação Bearer por principal, o vínculo sessão/principal e a **autorização por workspace via `allowedPrincipals`** estão implementadas, mas **Tailscale/acesso remoto ainda não foram configurados/validados** e exigem revisão de `allowedHosts`/proxy confiável antes do piloto remoto.
 - O diretório NÃO é um repositório Git e nenhuma operação Git foi executada.
 - Ambiente validado: Windows, Node.js `v24.19.0`, npm `11.17.0`. No PowerShell deste host usar `npm.cmd` (o `npm.ps1` é bloqueado pela ExecutionPolicy).
+- **Runtime suportado: Node.js 24+.** Node 22 foi removido da matriz após falha real no CI: `better-sqlite3@13.2.0` caiu em `node-gyp` e o VS 18 do runner não foi reconhecido. Ver seção 26.
 - Comandos disponíveis: `dev`, `start`, `build`, `typecheck`, `test`, `test:watch`, `smoke` (integrado), `smoke:foundation`, `smoke:integration`, `clean`, `auth:create`, `auth:list`, `auth:revoke`, `check:mcp` (seções 22–25).
 - Já existem: contratos compartilhados, SQLite com migrations versionadas/transacionais, servidor MCP Streamable HTTP com **Bearer obrigatório**, health, diagnóstico, principals/credenciais com revogação, rate limiting, `allowedHosts`/proxy confiável, salas/convites/sessões por token **vinculadas ao principal**, mensagens/cursor, tarefas, handoffs, catálogo de workspaces com **lista exata de principals autorizados (`allowedPrincipals`, fail-closed)**, **descoberta de workspaces só com Bearer**, leitura/busca, patches com lock e hash, histórico/backup/restore, checkpoints e recuperação conservadora de journal.
 - **200 testes em 24 arquivos** passando; typecheck, build, smokes e start real do `dist/` com credencial emitida pelo CLI validados. `npm audit --omit=dev` está **0 vulnerabilidades** (zod 4.6.7); restam apenas advisories dev do Vitest/Vite.
@@ -346,7 +347,7 @@ Stack decidida para o MVP:
 
 | Pacote | Versão | Papel |
 |---|---|---|
-| Node.js | `v24.19.0` validado; `engines: >=22.5.0` | Runtime |
+| Node.js | `v24.19.0` validado; `engines: >=24`; Node 22 não suportado | Runtime |
 | `@modelcontextprotocol/sdk` | `1.32.2` | SDK oficial v1, spec `2025-11-25`, Streamable HTTP |
 | `express` | `5.3.0` | HTTP (mesma linha `^5.2.1` exigida pelo SDK) |
 | `zod` | `4.6.7` (uso via subpath `zod/v4`) | Schemas das tools; atualizado por causa do advisory de exaustão de memória |
@@ -357,6 +358,8 @@ Stack decidida para o MVP:
 | `@types/node` | `24.19.2` | Tipos do runtime |
 
 A linha **v1** do SDK é o baseline operacional: é o denominador comum entre OpenCode, Codex e Claude Code hoje (`LATEST_PROTOCOL_VERSION = "2025-11-25"`). A v2 (`@modelcontextprotocol/server` / `@modelcontextprotocol/client`, spec `2026-07-28`) fica para depois de testes de interoperabilidade.
+
+**Node 22 não é suportado nesta versão.** O primeiro CI público em `windows-latest` falhou no `npm ci` porque `better-sqlite3@13.2.0` não obteve um prebuild compatível para Node 22 e o fallback `node-gyp` 11.5 não reconheceu o Visual Studio 18 do runner. O suporte declarado é Node 24+, sem exigir compilação nativa/Visual Studio.
 
 ### Estrutura real
 
@@ -1102,7 +1105,7 @@ O runbook descreve Tailscale Serve privado (sem Funnel), `COLLAB_ALLOWED_HOSTS` 
 - `README.md` público em português, com arquitetura Mermaid, quickstart testado, clientes, segurança e limitações.
 - `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`.
 - `.editorconfig`, `.gitattributes`, `.gitignore` revisado para segredos/roots/artefatos.
-- `.github/workflows/ci.yml`: Windows `windows-latest`, Node 22.x/24.x, `npm ci`, typecheck, tests, build e auditoria de produção informativa.
+- `.github/workflows/ci.yml`: Windows `windows-latest`, Node 24 (`24.x`), `npm ci`, typecheck, tests, build e auditoria de produção informativa.
 - `.github/dependabot.yml` semanal para npm e GitHub Actions.
 - `.github/ISSUE_TEMPLATE/{bug_report,feature_request,config}.yml`, `.github/pull_request_template.md` e `.github/CODEOWNERS`.
 - `workspaces.example.json` usa apenas a fixture local `fixtures/demo-workspace` e placeholder de principal; nunca um root real.
@@ -1110,7 +1113,7 @@ O runbook descreve Tailscale Serve privado (sem Funnel), `COLLAB_ALLOWED_HOSTS` 
 ### Decisões de apresentação
 
 - O README é o entrypoint público; `AGENTS.md`/`CLAUDE.md` continuam como documentação profunda de engenharia.
-- Badges apontam para `viniciusadami-ux/agent-live-share` (CI em `main`, licença MIT, Node >=22.5, MCP).
+- Badges apontam para `viniciusadami-ux/agent-live-share` (CI em `main`, licença MIT, Node >=24, MCP).
 - O tom é técnico e honesto: não há screenshots, benchmarks, usuários fictícios ou promessa de cliente remoto/Tailscale validado.
 - O produto continua em modo cooperativo local; a publicação pública não muda o escopo nem a segurança do runtime.
 

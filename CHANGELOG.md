@@ -24,7 +24,7 @@ Primeira versão pública local/cooperativa do Agent Live Share (codename intern
 - CLI local `auth:create`, `auth:list` e `auth:revoke`.
 - `check:mcp` para handshake, inventário de tools e `collab_status` sem ação destrutiva.
 - Templates/documentação para OpenCode, Codex/ChatGPT desktop, Claude Code, MCP genérico e Tailscale Serve.
-- Suíte com 200 testes em 24 arquivos, typecheck, build, smokes e CI para Windows/Node 22.x e 24.x.
+- Suíte com 200 testes em 24 arquivos, typecheck, build, smokes e CI para Windows/Node 24.
 - Migrations versionadas até a v30; health público com versão de migration e estado básico.
 
 ### Segurança
@@ -43,3 +43,4 @@ Primeira versão pública local/cooperativa do Agent Live Share (codename intern
 - Sem delete, rename/move, criação de diretórios, bridge stdio, OAuth, modo estrito ou UI.
 - Sem autorização por sala/role e sem administração remota de `allowedPrincipals`.
 - Sem operações Git, benchmarks ou promessa de prontidão para uso remoto/multiempresa.
+- Node.js 24+ é exigido. Node 22 não é suportado nesta versão: `better-sqlite3@13.2.0` não obteve prebuild compatível no CI Windows/Node 22 e o fallback `node-gyp` não reconheceu o Visual Studio 18 do runner.

@@ -8,9 +8,11 @@ Leia também [AGENTS.md](AGENTS.md) (documento central de decisões), [SECURITY.
 
 Requisitos:
 
-- Node.js **>= 22.5**;
+- Node.js **>= 24**;
 - npm;
 - Windows é o ambiente principal validado; Linux/macOS são bem-vindos, mas o caminho de path/lock mais exercitado é Windows.
+
+Node 22 não é suportado nesta versão: `better-sqlite3@13.2.0` não teve prebuild compatível no CI Windows/Node 22 e o fallback `node-gyp` não encontrou o Visual Studio 18 do runner. Use Node 24; não é necessário Visual Studio para o fluxo suportado.
 
 ```powershell
 npm.cmd ci

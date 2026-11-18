@@ -15,14 +15,13 @@ concurrency:
 
 jobs:
   test:
-    name: Node ${{ matrix.node }} on Windows
+    name: Node 24 on Windows
     runs-on: windows-latest
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        node: ["22.x", "24.x"]
 
+    # Node 22 não é suportado nesta versão: better-sqlite3@13.2.0 não obteve
+    # um prebuild compatível no runner Windows/Node 22 e o fallback node-gyp
+    # não reconheceu o Visual Studio 18 do runner. Node 24 é o runtime validado.
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,7 +29,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: "24.x"
           cache: npm
           cache-dependency-path: package-lock.json
 
@@ -49,6 +48,5 @@ jobs:
       # Informativo: a rede/advisory database do GitHub pode mudar sem uma
       # alteração deste repositório. Não torne o CI frágil por isso.
       - name: Production dependency audit (informational)
-        if: matrix.node == '24.x'
         continue-on-error: true
         run: npm.cmd audit --omit=dev

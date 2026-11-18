@@ -29,7 +29,7 @@
     "claude-code"
   ],
   "engines": {
-    "node": ">=22.5.0"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
