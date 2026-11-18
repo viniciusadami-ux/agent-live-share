@@ -1,0 +1,61 @@
+name: Feature request
+description: Proposta de recurso ou melhoria para Agent Live Share
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Descreva o problema antes da solução. O projeto prioriza coordenação
+        segura de agentes no mesmo workspace, não expansão de escopo por si só.
+        Não inclua segredos, roots reais ou conteúdo privado.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema ou caso de uso
+      description: Que problema real isso resolve no fluxo colaborativo?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Como você imagina a solução? Quais tools/arquivos seriam afetados?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Colaboração / salas / tarefas
+        - Workspace / arquivos / patches
+        - Locks / concorrência
+        - Checkpoints / recuperação
+        - Autenticação / autorização
+        - Adapters / clientes
+        - Testes / documentação / operação
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Limites do projeto
+      options:
+        - label: Entendo que o modo atual é cooperativo e não um sandbox estrito.
+          required: true
+        - label: A proposta não depende de shell arbitrário, OAuth ou UI no MVP.
+          required: true
+        - label: Removi tokens, roots e dados privados desta proposta.
+          required: true

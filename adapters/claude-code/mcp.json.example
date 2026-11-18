@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "collab": {
+      "type": "http",
+      "url": "http://127.0.0.1:3100/mcp",
+      "headers": {
+        "Authorization": "Bearer ${COLLAB_MCP_BEARER}"
+      }
+    }
+  }
+}

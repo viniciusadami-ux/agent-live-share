@@ -1,0 +1,10 @@
+{
+  "workspaces": [
+    {
+      "id": "demo",
+      "name": "Workspace de demonstracao",
+      "rootPath": "./fixtures/demo-workspace",
+      "allowedPrincipals": ["prin_00000000-0000-0000-0000-000000000000"]
+    }
+  ]
+}

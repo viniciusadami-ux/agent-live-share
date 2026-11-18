@@ -1,0 +1,19 @@
+# Collab MCP — template para Codex / ChatGPT desktop.
+#
+# Copie este bloco para ~/.codex/config.toml (global) ou
+# <projeto-compartilhado>/.codex/config.toml (projeto confiavel).
+#
+# O token NUNCA entra neste arquivo: bearer_token_env_var guarda apenas o NOME
+# da variavel de ambiente. Defina COLLAB_MCP_BEARER no processo do Codex/app.
+#
+# Para acesso remoto, troque a URL por:
+#   https://HOST.TAILNET.ts.net/mcp
+# (somente apos configurar Tailscale Serve e COLLAB_ALLOWED_HOSTS; veja
+# adapters/tailscale/README.md)
+
+[mcp_servers.collab]
+url = "http://127.0.0.1:3100/mcp"
+bearer_token_env_var = "COLLAB_MCP_BEARER"
+startup_timeout_sec = 30
+tool_timeout_sec = 120
+enabled = true

@@ -1,0 +1,32 @@
+# Dependencias e saida de build
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Persistencia local (SQLite) e artefatos temporarios de teste
+data/
+.tmp-tests/
+.tmp-*
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite-journal
+*.db
+*.db-journal
+
+# Ambiente local: NUNCA versionar arquivos com segredos
+.env
+.env.*
+!.env.example
+
+# Configuracao local de workspaces (contem roots reais deste host)
+workspaces.json
+workspaces.local.json
+workspaces.*.json
+!workspaces.example.json
+
+# Logs e ruido de SO/editor
+*.log
+coverage/
+.DS_Store
+Thumbs.db

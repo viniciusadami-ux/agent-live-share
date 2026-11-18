@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }} on Windows
+    runs-on: windows-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["22.x", "24.x"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install
+        run: npm.cmd ci
+
+      - name: Typecheck
+        run: npm.cmd run typecheck
+
+      - name: Test
+        run: npm.cmd test
+
+      - name: Build
+        run: npm.cmd run build
+
+      # Informativo: a rede/advisory database do GitHub pode mudar sem uma
+      # alteração deste repositório. Não torne o CI frágil por isso.
+      - name: Production dependency audit (informational)
+        if: matrix.node == '24.x'
+        continue-on-error: true
+        run: npm.cmd audit --omit=dev

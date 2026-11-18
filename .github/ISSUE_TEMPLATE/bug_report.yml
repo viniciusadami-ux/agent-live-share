@@ -1,0 +1,91 @@
+name: Bug report
+description: Reproducible bug in Agent Live Share
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar. Não inclua tokens, Bearer, convites, roots reais,
+        conteúdo de workspace privado ou logs com segredos.
+        Vulnerabilidades devem ser reportadas em SECURITY.md, não em issue pública.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-flight
+      options:
+        - label: Li o README, CONTRIBUTING.md e SECURITY.md.
+          required: true
+        - label: Removi tokens, convites, roots e dados privados deste report.
+          required: true
+        - label: Não estou reportando uma vulnerabilidade de segurança aqui.
+          required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: O que aconteceu?
+      description: Descreva o comportamento observado e o impacto.
+      placeholder: "Ex.: collab_apply_patch retornou HASH_MISMATCH mesmo após..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+      description: Comandos e chamadas de tool, em ordem.
+      placeholder: |
+        1. npm.cmd run dev
+        2. configurei ...
+        3. chamei collab_...
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamento atual
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Versão do Agent Live Share, Node, npm, sistema operacional e cliente MCP.
+      placeholder: "0.1.0; Node 24.19; npm 11.17; Windows 11; cliente OpenCode"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: Cliente MCP
+      options:
+        - OpenCode
+        - Codex / ChatGPT desktop
+        - Claude Code
+        - Cliente MCP genérico
+        - check:mcp / teste local
+        - Não se aplica
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs relevantes (sanitizados)
+      description: Remova tokens, roots, paths locais e dados privados.
+      render: shell
+    validations:
+      required: false
